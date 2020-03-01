@@ -20,18 +20,15 @@ In the endscreen, the correct splits are dynamically copied to entries 0x6D to 0
 * **asm/lib**
 * **asm/lib/api.py** interfaces with modules, i.e. by offering the "getScratchSpaceAddr" function for edits which need extra code space
 * **asm/lib/version_constants.py** sets useful memory addresses. These have .lui_instr(reg) and .offset_term(reg) functions for modules to use
-* **asm/modules**
-*   contains all of the assembly edits. /splits has the more substantial ones
-* **asm/patch_manager.py**
-*   run me in *ghidra* after hardcoding in_fn and out_fn. Select which modules you want to apply.
+* **asm/modules** contains all of the assembly edits. /splits has the more substantial ones
+* **asm/patch_manager.py** run me in *ghidra* after hardcoding in_fn and out_fn. Select which modules you want to apply.
 * **setup_logistics**
 * **sl/rom.py** adapted from [https://gitlab.com/ryandwyer/gepd-function-explorer/-/blob/master/extractor/lib/Rom.py], gives access to how files are stored inside the different ROM versions.
 * **sl/dumper.py** gets files out of all ROM versions.
 * **sl/compare.py** is a helper for comparing hashes. Most but not all -J & -U setups are identical.
 * **sl/injector.py** is the main function for injecting editted files
 * **sl/text_compactor** compacts text! Needs the text_condenser module (eh the names are similar) else GE will try to access well beyond the end of the text file and crash. This module still supports normal text :)  
-* **/files**
-..*   setups & scripts
+* **/files** setups & scripts
     
 ## Nuances
 * the setup editor only supports the NTSC-U rom, but the setup files are version-free. It's text editor is kinda handy but it garbles japanese text so you have to do some copy & paste to restore them. 
