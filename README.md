@@ -9,9 +9,7 @@ The setup editor [https://github.com/carnivoroussociety/GoldEditor#downloads] ca
 
 *!cmd split N(N) [Split name]*
 
-i.e.
-
-*!cmd split 09 Split #10*
+i.e. *!cmd split 09 Split #10*
 
 when executed will store the current mission time to the 10th split, and call it "Split #10"
 
