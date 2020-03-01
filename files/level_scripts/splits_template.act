@@ -1,0 +1,63 @@
+ADMain splits
+0200
+03
+02FF
+0100
+0201
+AD!cmd split 0 A
+0202
+03
+02FF
+0102
+0203
+AD!cmd split 1 B
+0204
+03
+02FF
+0104
+0205
+AD!cmd split 2 C
+0206
+03
+02FF
+0106
+0207
+AD!cmd split 3 D
+0208
+03
+02FF
+0108
+0209
+AD!cmd split 4 E
+020A
+03
+02FF
+010A
+020B
+AD!cmd split 5 F
+020C
+03
+02FF
+010C
+020D
+AD!cmd split 6 G
+020E
+03
+02FF
+010E
+020F
+AD!cmd split 7 H
+0210
+03
+02FF
+0110
+0211
+AD!cmd split 8 I
+0212
+03
+02FF
+0112
+0213
+AD!cmd split 9 J
+05FD0001
+END
