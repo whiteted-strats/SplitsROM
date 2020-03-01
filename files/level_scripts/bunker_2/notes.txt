@@ -1,0 +1,1 @@
+Guard 0x22 needs to start with the key_guard script. It is his normal script with splits injected.

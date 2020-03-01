@@ -1,0 +1,55 @@
+ADMain splits
+0200
+03
+680A0801
+0100
+0201
+AD!cmd split 0 Door #1
+0202
+03
+680B0803
+0102
+0203
+AD!cmd split 1 Door #2
+0204
+03
+592805
+0104
+0205
+AD!cmd split 2 Cam pause
+0206
+03
+55005107
+0106
+0207
+AD!cmd split 3 Downstairs
+0208
+03
+301909
+0108
+0209
+56040A
+0108
+020A
+AD!cmd split 4 Key & Boris
+020C
+03
+5527120D
+010C
+020D
+AD!cmd split 5 at glass
+020E
+03
+52001E00610F
+010E
+020F
+AD!cmd split 6 Near Exit
+0210
+03
+68080811
+0110
+0211
+AD!cmd split 7 Final door
+05FD0001
+ADMission time split is in 1003
+END

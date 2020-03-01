@@ -1,0 +1,67 @@
+ADMain splits
+0200
+03
+55006A01
+0100
+0201
+AD!cmd split 0 Treeline end
+0202
+03
+520078010F03
+0102
+0203
+AD!cmd split 1 Near tower
+0204
+03
+68070805
+0104
+0205
+AD!cmd split 2 Door #1
+0206
+03
+D60280FF
+520032011A07
+02FF
+0106
+0207
+AD!cmd split 3 Top level
+0208
+03
+68080809
+0108
+0209
+AD!cmd split 4 Door #2
+020A
+03
+9C000001000B
+010A
+020B
+AD!cmd split 5 Console
+020C
+03
+5501190D
+010C
+020D
+AD!cmd split 6 Catwalk
+020E
+03
+55010F0F
+010E
+020F
+AD!cmd split 7 Outside
+0210
+03
+D601B0FF
+520032010211
+02FF
+0110
+0211
+AD!cmd split 8 Warped up
+0212
+03
+68050213
+0112
+0213
+AD!cmd split 9 Locks done!
+05FD0001
+END

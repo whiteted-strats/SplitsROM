@@ -1,0 +1,46 @@
+ADSplits 0-5. Note the ending is not at distance 0
+0200
+03
+55006F01
+0100
+0201
+AD!cmd split 0 Top of ramp
+0202
+03
+55001403
+0102
+0203
+AD!cmd split 1 Key approach
+0204
+03
+520036005006
+0104
+0206
+03
+55007107
+0106
+0207
+AD!cmd split 2 Key leave
+0208
+03
+55001409
+55007109
+530578271209
+AD!cmd split 3 Past hut
+000A
+0209
+0108
+020A
+03
+52044527120B
+010A
+020B
+AD!cmd split 4 'Corner'
+020C
+03
+5201F427120D
+010C
+020D
+AD!cmd split 5 ~ Halfway
+05FD0001
+END

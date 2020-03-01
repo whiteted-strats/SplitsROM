@@ -1,0 +1,49 @@
+ADMain splits
+0200
+03
+300E01
+0100
+0201
+AD!cmd split 0 Slap!
+0202
+03
+68060803
+0102
+0203
+AD!cmd split 1 Door #1
+0204
+03
+550097FF
+0104
+02FF
+530040009705
+0104
+0205
+AD!cmd split 2 At stairs
+0206
+03
+55007207
+0106
+0207
+AD!cmd split 3 Upstairs
+0208
+03
+68070809
+0108
+0209
+AD!cmd split 4 Double door
+020A
+03
+6808080B
+010A
+020B
+AD!cmd split 5 Nat door
+020C
+03
+5500310D
+010C
+020D
+AD!cmd split 6 Gallery
+020E
+05FD0001
+END

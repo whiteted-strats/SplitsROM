@@ -1,0 +1,57 @@
+ADMain splits
+0200
+03
+593C01
+0100
+0201
+AD!cmd split 0 In pause
+0202
+03
+681A0803
+0102
+0203
+AD!cmd split 1 Cell door
+0204
+03
+55005D05
+0104
+0205
+AD!cmd split 2 Corridor
+0208
+03
+560209
+0108
+0209
+AD!cmd split 4 VHS tape
+020A
+03
+4400430B
+010A
+020B
+AD!cmd split 5 T loaded
+020C
+03
+30220D
+010C
+020D
+AD!cmd split 6 Key Kill
+0206
+03
+55271207
+0106
+0207
+AD!cmd split 7 At glass
+020E
+03
+52001E00320F
+010E
+020F
+AD!cmd split 8 Near Exit
+0210
+03
+68040811
+0110
+0211
+AD!cmd split 9 Final door
+05FD0001
+END

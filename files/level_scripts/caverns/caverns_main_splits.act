@@ -1,0 +1,67 @@
+ADMain splits
+0200
+03
+52007000C301
+0100
+0201
+AD!cmd split 0 2nd room
+0202
+03
+52005500D3FF
+5500D303
+02FF
+0102
+0203
+AD!cmd split 1 Pre U bend
+0204
+03
+5500D3FF
+5500CEFF
+0005
+02FF
+0104
+0205
+AD!cmd split 2 Into spiral
+0206
+03
+D6FB9BFF
+0007
+02FF
+0106
+0207
+AD!cmd split 3 Halfway up
+0208
+03
+550106FF
+0009
+02FF
+0108
+0209
+AD!cmd split 4 Exit spiral
+020A
+03
+5501100B
+010A
+020B
+AD!cmd split 5 Catwalk
+020C
+03
+5501560D
+010C
+020D
+AD!cmd split 6 Drone #1
+020E
+03
+5501680F
+010E
+020F
+AD!cmd split 7 Tunnel
+0210
+03
+68270811
+0110
+0211
+AD!cmd split 8 Lift door
+0212
+05FD0001
+END

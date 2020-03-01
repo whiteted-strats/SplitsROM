@@ -1,0 +1,75 @@
+0200
+03
+52004B016F01
+0100
+0201
+AD!cmd split 00 Over bridge
+0202
+03
+55017003
+0102
+0203
+AD!cmd split 01 In tunnel
+02F0
+550008F1
+03
+01F0
+02F1
+AD!cmd split 02 Mid tunnel
+0204
+03
+44007406
+0104
+0206
+AD!cmd split 03 Loaded GG
+0207
+03
+68090808
+0107
+0208
+AD!cmd split 04 Gate #1
+0209
+03
+6808080A
+0109
+020A
+AD!cmd split 05 Gate #2
+020B
+03
+5500860C
+010B
+020C
+AD!cmd split 06 Past gates
+020D
+03
+6814080E
+010D
+020E
+AD!cmd split 07 Mesh gate
+020F
+03
+55008910
+010F
+0210
+AD!cmd split 08 Past Mesh
+0211
+03
+68150812
+0111
+0212
+AD!cmd split 09 Final gate
+0213
+03
+55002214
+0113
+0214
+AD!cmd split 10 On the dam
+0215
+03
+520064011616
+0115
+0216
+AD!cmd split 11 Near stairs
+0217
+05FD0001
+END
