@@ -6,9 +6,13 @@ Born in the fires of Runway 21 and Frigate 2.3 development, these modular assemb
 ## Mechanics
 
 The setup editor [https://github.com/carnivoroussociety/GoldEditor#downloads] can be used to add game scripts to setup files (for any version). These scripts include the AD command, which is normally a comment that is ignored by the GE rom. We hook this code to add our own command with comments:
-!cmd split N(N) [Split name]
+
+*!cmd split N(N) [Split name]*
+
 i.e.
-!cmd split 09 Split #10
+
+*!cmd split 09 Split #10*
+
 when executed will store the current mission time to the 10th split, and call it "Split #10"
 
 Names & splits are stored to 2 separate buffers. Originally I thought I could just find some memory somewhere but I had a lot of crashes on console (though emu doesn't mind :) ). So I've added support for a more compact text file (asm/modules/condensed_text.py). The Lgun & Ltitle text files must be compacted, and their zero buffers must be hardcoded into patch_manager.py. The existing values shouldn't need changing provided you only edit setups & level text files.
