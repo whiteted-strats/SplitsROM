@@ -38,6 +38,7 @@ In the endscreen, the correct splits are dynamically copied to entries 0x6D to 0
 * injector.py shrinks all foreign language text files to size 0 (rather than actually delete them), and once it's done this once it will forget about any extra free space that it has. So inject all your files in one go please :)
 * when importing scripts, the setup editor will silently redirect functions calls to 0001 if the function that was being called doesn't exist. This caught me out when moving Statue to NTSC-J.
 * probably some I've forgotten about
+* do all your compression using the setup editor
 
     
       
