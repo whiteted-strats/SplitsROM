@@ -17,15 +17,15 @@ In the endscreen, the correct splits are dynamically copied to entries 0x6D to 0
 
 ## Broad structure
 * *asm*
-../lib
+../lib..
 
-....api.py interfaces with modules, i.e. by offering the "getScratchSpaceAddr" function for edits which need extra code space.
+....api.py interfaces with modules, i.e. by offering the "getScratchSpaceAddr" function for edits which need extra code space..
 
-....version_constants.py sets useful memory addresses. These have .lui_instr(reg) and .offset_term(reg) functions for modules to use.
+....version_constants.py sets useful memory addresses. These have .lui_instr(reg) and .offset_term(reg) functions for modules to use..
 
 ../modules
 
-....contains all of the assembly edits. /splits has the more substantial ones.
+....contains all of the assembly edits. /splits has the more substantial ones..
 
 ..patch_manager.py
 
