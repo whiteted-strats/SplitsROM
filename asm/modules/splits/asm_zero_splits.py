@@ -23,8 +23,8 @@ class ZeroSplitsPatch:
         }[api.VERSION]
         # initCodeAddr -> +0x3c are identical in NTSC-J & -U
 
-        # Including the 3 words before
-        fullBuffer = api.splitsBuffer - 0xc
+        # Including the 4 words before
+        fullBuffer = api.splitsBuffer - 0x10
         assert api.namesBuffer.lui_instr("r") == fullBuffer.lui_instr("r")
 
         instrs = [
@@ -38,7 +38,7 @@ class ZeroSplitsPatch:
 
             # Use our well earned space to zero all our splits, and the string pointers
             fullBuffer.lui_instr("t1"),
-            "addiu t1, t1, 0x10C", # Zero up to the 64th split (only using 32 max atm), and 16 names (we only need to zero 4)
+            "addiu t1, t1, 0x110", # Zero up to the 64th split (only using 32 max atm), and 16 names (we only need to zero 4)
             "addiu t1, t1, -0x4",
             "sw zero, {}".format(fullBuffer.offset_term("t1")),
             "sw zero, {}".format(api.namesBuffer.offset_term("t1")),

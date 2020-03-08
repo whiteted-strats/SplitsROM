@@ -4,6 +4,7 @@ Requires Word bank 0x9C (Ltitle) and 0x98 (Lgun) compacted.
 """
 
 # MEMORY LAYOUT:
+#   [-0x10] - delta mode (0/1)
 #   [-0xc]  - follower of 067CA4, the input
 #   [-0x8]  - displayIndex (reset to 0)
 #   [-0x4]  - max index     (reset to 0)
@@ -72,12 +73,13 @@ class ShowSplitsPatch:
         
 
         # Memory addresses that we're going to need
+        deltaMode = api.splitsBuffer - 0x10
         inputFollower = api.splitsBuffer - 0xc
         displayIndex = api.splitsBuffer - 0x8
         maxIndex = api.splitsBuffer - 0x4
 
         # Check all of these share the same HIGH
-        assert inputFollower.lui_instr("r") == api.splitsBuffer.lui_instr("r")
+        assert deltaMode.lui_instr("r") == api.splitsBuffer.lui_instr("r")
 
         wordBank9C_ptr = api.MemConst.wordBankTable + 0x9c
 
@@ -89,9 +91,10 @@ class ShowSplitsPatch:
         #   OUTPUT: a2,a3
         #       Preserves everyone else (except ra)
 
-        MOVE_UP = 34
-        MOVE_DOWN = 41
-        UPDATE_STRING = 47
+        MOVE_UP = 49    # 34
+        MOVE_DOWN = 56  # 41
+        UPDATE_STRING = 62  # 47
+        DRAW_TIMES = 104
         funcInstrs = [
             # PREFIX, save t0,t1,t2,t3,t4
             "addiu sp, sp, -0x14",
@@ -102,7 +105,7 @@ class ShowSplitsPatch:
             "sw t4, 0x10(sp)",
 
 
-            # Read the display index, and update it if we're the 1st call
+            #  ==== Read the display index, and update it if we're the 1st call ====
             displayIndex.lui_instr("t3"),
             "lw t0, {}".format(displayIndex.offset_term("t3")),  
             "bne a0, zero, 0x{:x}".format(funcAddr + 0x4*UPDATE_STRING),    # kills t3
@@ -114,6 +117,34 @@ class ShowSplitsPatch:
             "xor t1, t1, t3",       # ~
             "and t1, t1, t2",       # t1 = Pressed this time and not previously
 
+            
+
+            # ==== DELTA VERSION ADDITION - updates Delta mode ====
+            # t3 usable, t2 we restore
+            # .DBC: dpad, bumpers, cbuttons: we want the low 2 bits of each of those nibbles
+            "srl t2, t1, 16",   # C-buttons
+            "srl t3, t1, 20",
+            "or t2, t2, t3",    # OR on the bumpers
+            "srl t3, t1, 24",
+            "or t2, t2, t3",    # OR on D-pad
+            "srl t3, t2, 1",
+            "or t2, t2, t3",    # OR these 2 bits. Higher bits killed below
+
+            deltaMode.lui_instr("t3"),                      
+            "lw t3, {}".format(deltaMode.offset_term("t3")),    # Read existing delta mode
+            "xor t2, t2, t3",                                   # Flip low bit if a button has been pressed
+            "andi t2, t2, 0x1",                                 # Kill other bits
+            deltaMode.lui_instr("t3"),
+            "sw t2, {}".format(deltaMode.offset_term("t3")),    # Store
+
+            api.MemConst.p1_input.lui_instr("t2"),
+            "lw t2, {}".format(api.MemConst.p1_input.offset_term("t2")),     # Restore t2 = Input
+
+
+
+
+            # ==== Handle the Up / Down button presses ====
+            #       & update the input follower
             ## .D.C ....
             ## Down is 4, Up is 8
             ## So shifts are:
@@ -141,7 +172,6 @@ class ShowSplitsPatch:
             "bne t3, zero, 0x{:x}".format(funcAddr + 0x4*MOVE_UP),
             inputFollower.lui_instr("t1"),   # bne not bnel, so set regardless
 
-
             # Neither up nor down - still update the follower!
             "sw t2, {}".format(inputFollower.offset_term("t1")),
             "b 0x{:x}".format(funcAddr + 0x4*UPDATE_STRING),
@@ -167,7 +197,9 @@ class ShowSplitsPatch:
             "sw t0, {}".format(displayIndex.offset_term("t1")),
 
 
-            # UPDATE_STRING
+
+
+            # ================ UPDATE_STRING ===================
             # Find our string as index 6D + a0 in word bank at offset 9C from the table at 8008C640 (NTSC-U)
             "addu t0, t0, a0",
             wordBank9C_ptr.lui_instr("t1"),
@@ -214,17 +246,31 @@ class ShowSplitsPatch:
             "lw t3, {}".format((api.namesBuffer + 0xc).offset_term("t2")),
             "sw t3, 0x10(t1)",
 
-            # DRAW TIMES
-            # Set t3 = 60, for the first divmod
-            "li t3, 0x3c",
 
+
+            # ==== GET TIME ====
             # Find the statistic, store it into t0
             api.splitsBuffer.lui_instr("t1"),
             "sll t2, t0, 2",
             "addu t1, t1, t2",
             "lw t0, {}".format(api.splitsBuffer.offset_term("t1")),
 
+
+
+            # ==== DELTA VERSION ADDITION - delta mode ====
+            "beq zero, t2, 0x{:x}".format(funcAddr + 0x4*DRAW_TIMES),       # If our index was 0, skip
+            deltaMode.lui_instr("t3"),
+            "beq zero, t0, 0x{:x}".format(funcAddr + 0x4*DRAW_TIMES),       # If our split is 0:00, skip. This is generally a fail split.
+            "lw t3, {}".format(deltaMode.offset_term("t3")),                # t3 <- Delta mode
+            "beq zero, t3, 0x{:x}".format(funcAddr + 0x4*DRAW_TIMES),       # Skip if delta mode = 0
+            "lw t1, {}".format((api.splitsBuffer - 0x4).offset_term("t1")), # Load the previous split
+            "sub t0, t0, t1",   # Update t0 to the difference.
+
+
+
+            # ============= DRAW TIMES ==============
             # divmod by 60
+            "li t3, 0x3c",
             "div t0, t3",
 
             # Get the results (after a short sleep)
