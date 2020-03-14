@@ -20,9 +20,10 @@ class FastPausePatch:
         pausing_addr = {
             "NTSC-U" : 0x000b4410,
             "NTSC-J" : 0x000b4a60,
+            "PAL" : 0x000b2374,
         }[api.VERSION]
 
         api.asm("{:x}".format(pausing_addr), "lui at, 0x4080")
         api.asm("{:x}".format(pausing_addr + 0x4), "sw  at, 0x0(v0)")
-        api.asm("{:x}".format(pausing_addr + 0x8), "lui at, 0x8005")   # restores register at (original set by NTSC-U b43f0)
+        api.asm("{:x}".format(pausing_addr + 0x8), "lui at, 0x8005")   # restores register at (original set by NTSC-U b43f0). Checked value for PAL.
 

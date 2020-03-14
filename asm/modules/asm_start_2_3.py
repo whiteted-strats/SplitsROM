@@ -14,10 +14,12 @@ class Start2_3Patch:
         initCodeAddr = {
             "NTSC-U" : 0x00039ca0,
             "NTSC-J" : 0x00039d00,
+            "PAL" : 0x00037b00
         }[api.VERSION]
         v1_increment = {
             "NTSC-U" : -0x5f4c,
             "NTSC-J" : -0x5edc,
+            "PAL" : -0x743c,
         }[api.VERSION]
 
         SUFFIX = 0x6
@@ -31,7 +33,7 @@ class Start2_3Patch:
             api.MemConst.playerDataPtr.lui_instr("t5"),
             "li t6, 0x06",
             "lw t5, {}".format(api.MemConst.playerDataPtr.offset_term("t5")),
-            "sw t6, 0x2a58(t5)",
+            "sw t6, 0x{:x}(t5)".format(0x2a50 if api.VERSION == "PAL" else 0x2a58),
 
             # SUFFIX
             "jr ra",
@@ -62,17 +64,17 @@ class Start2_3Patch:
             # [0], was setting t9
             "sw zero ,0x804 (t0)",          # Use t0, not t9
             "lw         t8,0x0 (s0)",
-            "sw         a1,0x2a44 (t8)",
+            "sw         a1,0x{:x} (t8)".format(0x2a3c if api.VERSION == "PAL" else 0x2a44),
             # [1], was setting t0
             "addiu      t8,v1,0x3a8",
-            "sw         a1,0x2a48 (t0)",
+            "sw         a1,0x{:x} (t0)".format(0x2a40 if api.VERSION == "PAL" else 0x2a48),
             # [2], was setting t7
             "or         t0,v1,zero",
-            "lui        v1,0x8008",
-            "sw zero ,0x2a50 (t0)",         # Use t0, not t7
+            "lui        v1,0x{:x}".format(0x8007 if api.VERSION == "PAL" else 0x8008),
+            "sw zero ,0x{:x} (t0)".format(0x2a48 if api.VERSION == "PAL" else 0x2a50),         # Use t0, not t7
             # [3], was setting t6
             "addiu      v1,v1,{}".format(hex(v1_increment)),
-            "sw zero ,0x2a54 (t0)",         # Use t0, not t6
+            "sw zero ,0x{:x} (t0)".format(0x2a4c if api.VERSION == "PAL" else 0x2a54),         # Use t0, not t6
             hook_code[0],
             hook_code[1],
             hook_code[2],

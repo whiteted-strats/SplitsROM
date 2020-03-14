@@ -23,8 +23,11 @@ class API:
         # Determine where our free space is going to start
         self._scratchSpaceStart = {
             "NTSC-U" : 0x107450,
-            "NTSC-J" : 0x108170,    # I still haven't checked this against the decomp :/
-            "PAL" : None
+            "NTSC-J" : 0x108170,
+            "PAL" : 0x0c39d4,   # PAL lacks the spectrum emulator and the debug menu section is very small.
+                                # We overwrite the single function "handle_cheats_turned_on" in the "cheat_buttons" module
+                                # THIS MEANS YOU CAN'T SET ANY CHEATS
+                                # It is size 0x8d4 
         }[VERSION]
 
         self._asmer = Assemblers.getAssembler(currentProgram)
@@ -69,6 +72,9 @@ class API:
         # This will add 4 to _scratchSpaceStart each iteration
         for offset in range(0,pad,4):
             self.asm("{:x}".format(self._scratchSpaceStart), "nop")
+
+        # Log
+        print("Scratch space provided at 0x{:x}".format(self._scratchSpaceStart))
 
         return self._scratchSpaceStart
 

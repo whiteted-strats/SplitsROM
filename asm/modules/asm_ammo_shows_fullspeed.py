@@ -12,16 +12,17 @@ class AmmoWithFullspeedPatch:
     @classmethod
     def apply_patch(cls, api):
 
-        # Currently:
+        # Initially
         # NTSC-U : 7f083394 = 000b7ec4
         # NTSC-J : 7F0839A4 = 000b8514 
         # 000b7ec4  8d  0f  01  7c    lw         t7,0x17c (t0) 
-        # 000b7ec8  29  e1  00  b4    slti       at,t7,0xb4
-        # i.e. (_DAT_8007a0b0 + 0x17c) < 0xb4
+        # 000b7ec8  29  e1  00  b4    slti       at,t7, 0xb4 [0x96 if PAL]
+        # i.e. (_DAT_8007a0b0 + 0x17c) < 3 seconds
 
         injection_address = {
             "NTSC-U" : 0x000b7ec4,
             "NTSC-J" : 0x000b8514,
+            "PAL" : 0x000b5e28,
         }[api.VERSION]
 
         ammo_on_screen = api.MemConst.settingsData + 0xF0
@@ -32,8 +33,7 @@ class AmmoWithFullspeedPatch:
         api.asm("{:x}".format(injection_address + 0x4), "nop")
         api.asm("{:x}".format(injection_address), "jal {}".format(hex(api.virtualise(funcAddr))))
 
-        
-
+    
         funcInstrs = [
             # t7 coming in as the # frames fullspeed
             # Prefix - save t4, t5
@@ -43,7 +43,7 @@ class AmmoWithFullspeedPatch:
 
             # Perform the replaced instructions (set t7, at)
             "lw t7, 0x17c(t0)",
-            "slti at,t7,0xb4",
+            "slti at,t7,0x{:x}".format(0x96 if api.VERSION == "PAL" else 0xb4),
 
             # Do our main work
             ammo_on_screen.lui_instr("t4"),

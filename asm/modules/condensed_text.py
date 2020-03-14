@@ -12,7 +12,8 @@ class CondensedTextPatch:
 
         initCodeAddr = {
             "NTSC-U" : 0x0f6908,
-            "NTSC-J" : 0X0f75f8,
+            "NTSC-J" : 0x0f75f8,
+            "PAL" : 0x0f3ca8,
         }[api.VERSION]
 
         # Clean and trim the main text function,
@@ -23,9 +24,9 @@ class CondensedTextPatch:
         mainBlock = [
             "sra        t6,a0,0xa",
             "sll        t6,t6,0x2",     # bank offset, top 6 bits
-            api.MemConst.wordBankTable.lui_instr("v0"), #"lui        v0,0x8009",
+            api.MemConst.wordBankTable.lui_instr("v0"), #"lui        v0,0x8009/7",
             "addu       v0,v0,t6",
-            "lw         v0,{}".format(api.MemConst.wordBankTable.offset_term("v0")),   # => Bank, "-0x39c0 (v0)"
+            "lw         v0,{}".format(api.MemConst.wordBankTable.offset_term("v0")),   # => Bank, "-0x39c0/0x3a20 (v0)"
 
             # TEST
             "lb         t7, 0x0(v0)",

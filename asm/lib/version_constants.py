@@ -55,8 +55,15 @@ class MemoryConst:
 
 
         elif VERSION == "PAL":
-            pass    # Soon?
+            self.virtual_offset = 0x0329f0
 
+            self.mission_timer = MemoryAddress(0x80068500)
+            self.p1_input = MemoryAddress(0x80057cc4)
+            self.playerDataPtr = MemoryAddress(0x800689F0)
+            self.wordBankTable = MemoryAddress(0x80073a20)
+            self.shotStatistics = MemoryAddress(0x80068A00)
+            self.settingsData = MemoryAddress(0x8003a620)
+            self.currentMission = MemoryAddress(0x80025e48)
 
 
 # NOTE most instruction differences are stored in the specific modules rather than here,
@@ -70,5 +77,5 @@ class InstructionConst:
         elif VERSION == "NTSC-J":
             self.script_cmd_length = 0x6986c
         elif VERSION == "PAL":
-            pass
+            self.script_cmd_length = 0x6742c
 

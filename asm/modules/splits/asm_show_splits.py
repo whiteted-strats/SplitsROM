@@ -26,23 +26,26 @@ class ShowSplitsPatch:
         formatStr = MemoryAddress({
             "NTSC-U" : 0x8005180C,
             "NTSC-J" : 0x8005183C,
+            "PAL" : 0x80047934,
         }[api.VERSION])
 
         format_calls = {
             "NTSC-U" : [0x4c11c, 0x4c250, 0x4c38c, 0x4c4d8],
             "NTSC-J" : [0x4c20c, 0x4c340, 0x4c47c, 0x4c5c8],    # + 0xF0
+            "PAL" : [0x49f38, 0x4a06c, 0x4a1a8, 0x4a2f4]
         }[api.VERSION]
 
         strFormatVirtualAddr = {
             "NTSC-U" : 0x0000ac94,
             "NTSC-J" : 0x0000aca4, # +0x10
+            "PAL" : 0x0000a0f4, # acf4 physical
         }[api.VERSION]
 
 
         # Inject into the 'prelude's to the 4 calls to the string formatting function
         # Each has the same form (BEFORE our edit):
         """
-            lui a1 0x8005
+            lui a1 0x8005/4
             addiu a1,a1, X
             addiu a0,sp, 0xa8
             mfc1 a3,fY
@@ -269,8 +272,8 @@ class ShowSplitsPatch:
 
 
             # ============= DRAW TIMES ==============
-            # divmod by 60
-            "li t3, 0x3c",
+            # divmod by 60 or 50!
+            "li t3, 0x{:x}".format(50 if api.VERSION == "PAL" else 60),
             "div t0, t3",
 
             # Get the results (after a short sleep)

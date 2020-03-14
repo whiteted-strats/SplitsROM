@@ -20,8 +20,9 @@ class ZeroSplitsPatch:
         initCodeAddr = {
             "NTSC-U" : 0x39D7C,
             "NTSC-J" : 0x39DDC,
+            "PAL" : 0x37BDC,
         }[api.VERSION]
-        # initCodeAddr -> +0x3c are identical in NTSC-J & -U
+        # initCodeAddr -> +0x3c are identical in NTSC-J & -U & PAL :) 
 
         # Including the 4 words before
         fullBuffer = api.splitsBuffer - 0x10

@@ -30,6 +30,7 @@ class SplitCommandPatch:
         hit_function_update = {
             "NTSC-U" : 0x9f258,
             "NTSC-J" : 0x9f884,
+            "PAL" : 0x9d8c0,
         }[api.VERSION]
         api.asm("{:x}".format(hit_function_update), "addiu t0, t9, 0x0")    # 0x1 previously
         api.asm("{:x}".format(hit_function_update + 0x4), "nop")            # store previously
@@ -42,9 +43,10 @@ class SplitCommandPatch:
         exec_comment_call_to_cmd_length = {
             "NTSC-U" : 0x6d24c,
             "NTSC-J" : 0x6d58c,
+            "PAL" : 0x6b14c,
         }[api.VERSION]
         api.asm("{:x}".format(exec_comment_call_to_cmd_length), "jal 0x{:x}".format(api.virtualise(funcAddr)))
-        # Delay slot is a1 = s2 in -U & -J
+        # Delay slot is a1 = s2 in -U & -J & PAL
 
         
         # Prep relevant memory addresses
@@ -93,7 +95,7 @@ class SplitCommandPatch:
             # t3 = *t2
             # Detect the end using t3 == 't'
             # This is reading the data at the end of the code.
-            # It's legacy code so don't touch it ;) but it could be a lot cleaner using .lui_instr
+            # It's legacy code so don't touch it ;) but it could be a lot cleaner
             "lui t2, 0x{:x}".format( 0x7000 | ( api.virtualise(funcAddr) >> 16 ) ),
             "li t3, 0x{:x}".format((api.virtualise(funcAddr) + 0x4*DATA) & 0xFFFF),
             "addu t2, t2, t3",
