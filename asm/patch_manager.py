@@ -5,11 +5,11 @@ from lib.version_constants import MemoryAddress
 acceptable_versions = [
     "NTSC-U",
     "NTSC-J",
-    #"PAL",      # No support yet
+    "PAL",  # :) 
 ]
 
-in_fn = r"GE_NTSC_U.z64"
-out_fn = r"GE_U_splits_asm.z64"
+in_fn = r"GE_p_unlocked.z64"
+out_fn = r"GE_P_splits_asm.z64"
 
 # Deduce the VERSION
 with open(in_fn, "rb") as fs:
@@ -18,7 +18,8 @@ with open(in_fn, "rb") as fs:
 
 VERSION = {
     b"NGEE" : "NTSC-U",
-    b"NGEJ" : "NTSC-J"
+    b"NGEJ" : "NTSC-J",
+    b"NGEP" : "PAL",
 }.get(VERSION, VERSION)
 
 assert VERSION in acceptable_versions, "Unsupported version {}".format(VERSION)
@@ -33,11 +34,13 @@ api = API(VERSION, currentProgram)
 # Our buffers are in the compressed LgunE and LtitleE files
 splitsBuffer = {
     "NTSC-U" : 0x802AC1C0,
-    "NTSC-J" : 0x802AC140
-}[VERSION] + 0x10
+    "NTSC-J" : 0x802AC140,
+    "PAL" : 0x8029C1C0  # [-U] -0x10000 + 0x0
+}[VERSION] + 0x10   # Note the + 0x10
 namesBuffer = {
     "NTSC-U" : 0x802AD160,
     "NTSC-J" : 0x802AD170,
+    "PAL" : 0x8029D180 # [-U] -0x10000 + 0x20 (more items of text)
 }[VERSION]
 
 api.splitsBuffer = MemoryAddress(splitsBuffer)
