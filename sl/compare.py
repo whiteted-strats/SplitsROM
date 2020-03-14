@@ -6,6 +6,7 @@ from os import listdir
 from os.path import isfile, join
 from hashlib import sha256
 
+# PAL and -J's setups are identical.
 j_dirc = r"ntsc_j_dumped\comp_setups"
 u_dirc = r"ntsc_u_dumped\comp_setups"
 

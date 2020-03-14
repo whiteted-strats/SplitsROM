@@ -34,8 +34,10 @@ def main():
 
     
     # Calculate the available space from removing foreign text (~33KB)
+    # More for PAL because it has E, J and P text (bizarre)
     foreignLangFileIds = set(rom.getForeignLangFileIds())
     availableSpace = sum([rom.fileSize(file_id) for file_id in foreignLangFileIds])
+    
 
     print("{} extra space required, {} available from removing foreign text.".format(reqSpace, availableSpace))
     if reqSpace > availableSpace:

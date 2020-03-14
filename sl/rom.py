@@ -269,4 +269,5 @@ class GePalFinalRom(GeRom):
     FILELIST_ADDRESS = 0x1fe74
     GLOBAL_FUNCTIONS_ADDRESS = 0x138ac
 
-    LANG_CHAR = "E"
+    NAMES_OFFSET = 0x2eba0
+    LANG_CHAR = "P" # Interesting :) 
