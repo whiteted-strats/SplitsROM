@@ -277,19 +277,20 @@ class ShowSplitsPatch:
             "div t0, t3",
 
             # Get the results (after a short sleep)
-            "mflo a2",  # / 60, SET a2
-            "mfhi t1",  # % 60
+            "mflo a2",  # / 50 or 60, SET a2
+            "mfhi t1",  # % 50 or 60
 
             # Do something useful before we divide again:
             # Set t3 = 3 for our next operation
-            # and multiply t1 by 5 using shifts
+            # and multiply t1 by 5 into t2 using shifts
             "li t3, 0x3",
             "sll t2, t1, 0x2",
-            "addu t1, t1, t2",
+            "addu t2, t1, t2",
 
-            # Divide by 3, completing the move from 0-59 -> 0-98
-            "div t1, t3",
-            "mflo a3",  # SET a3
+            # IF NTSC Divide by 3, completing the move from 0-59 -> 0-98
+            # IF PAL ignore t2 and just double t1 into a3, 0-49 -> 0-98
+            "nop" if api.VERSION == "PAL" else "div t2, t3",
+            "sll a3, t1, 0x1" if api.VERSION == "PAL" else "mflo a3",  # SET a3
 
             # SET a0 = (sp + 0x14) + 0xA8
             # This is to replicate the a0 = sp + 0xA8 that we wrote over..
