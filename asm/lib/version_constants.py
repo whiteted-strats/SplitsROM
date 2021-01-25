@@ -41,6 +41,10 @@ class MemoryConst:
             self.shotStatistics = MemoryAddress(0x80079EF0)
             self.settingsData = MemoryAddress(0x800409D0)     # values set in the pause are here. = FFFFFFFF
             self.currentMission = MemoryAddress(0x8002A8F8)
+            self.ost_frames_float = MemoryAddress(0x80030af0)
+            
+            # NTSC-U only for now
+            self.global_timer_delta = MemoryAddress(0x80048374) # float version follows
 
         elif VERSION == "NTSC-J":
             self.virtual_offset = 0x34b70
@@ -52,6 +56,7 @@ class MemoryConst:
             self.shotStatistics = MemoryAddress(0x80079F60)   # "
             self.settingsData = MemoryAddress(0x80040A00)     # + 0x30
             self.currentMission = MemoryAddress(0x8002A938)   # + 0x40
+            self.ost_frames_float = MemoryAddress(0x80030b30)
 
 
         elif VERSION == "PAL":

@@ -6,6 +6,7 @@ This provides access to the assembler & version-dependent differences
 
 from version_constants import MemoryConst, InstructionConst
 from ghidra.app.plugin.assembler import Assemblers
+import array # jython
 
 # Add support for a label system? Keep the system we've got anyway
 
@@ -80,6 +81,25 @@ class API:
 
     def getChanges(self):
         return self._changes
+
+    def shift(self, startAddr, endAddr, shift):
+        # Doesn't respect scratch space - why would you shift there
+        # BEWARE - reads from db
+
+        assert shift < 0
+        w = array.array('b', '\x00\x00\x00\x00' )
+        for addr in range(startAddr, endAddr, 4):
+            # Read the 4 signed bytes and unsigned them
+            # Don't write them because we have the issues of noping it first & telling ghidra it's still asm
+            self._mem.getBytes(self._ram.getAddress(addr), w, 0, 4)
+            ##self._mem.setBytes(ram.getAddress(addr + shift), w)
+            unsigned = [unsign(w[0]), unsign(w[1]), unsign(w[2]), unsign(w[3])]
+
+            # Add the changes - after shifting
+            hexAddr = "{:x}".format(addr + shift)
+            assert hexAddr not in self._changes
+            self._changes[hexAddr] = unsigned
+
 
 
     def commit(self, out_fn, in_fn):

@@ -204,6 +204,6 @@ class SplitCommandPatch:
         assert len(cmd) % 4 == 0
         dataAddr = funcAddr + 4*len(funcInstrs)
         for i, word in enumerate([cmd[j:j+4] for j in range(0, len(cmd), 4)]):
-            api.store_directly(hex(dataAddr + i*4), word)
+            api.store_directly("{:x}".format(dataAddr + i*4), word) # not 0x anymore
         
 
