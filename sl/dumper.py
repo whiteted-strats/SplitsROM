@@ -16,8 +16,7 @@ def main():
     rom, version_char = loadRom(args.input_rom)
     rom.loadMainDataFile()
     rom.loadFileNames()
-    
-    
+
     # Get the files
     setup_file_ids = rom.getSetupFileIds()
     lang_title_file_id = rom.fileIdForName["Ltitle" + rom.LANG_CHAR]
@@ -43,6 +42,19 @@ def main():
     storage_fn = "{}.{}.lng.1172".format("Lgun" + rom.LANG_CHAR, version_char)
     with open(os.path.join(args.output_dirc, storage_fn), "wb") as fs:
         fs.write(rom.getFile(lang_gun_file_id))
+
+    # Dump the main data file too
+    print("Dumping mdf..")
+    with open(os.path.join(args.output_dirc, "mdf.dat"), "wb") as fs:
+        fs.write(rom.mdf)
+
+    """
+    # Bonus
+    print("Dumping PAL frig text..")
+    storage_fn = "{}.{}.lng.1172".format("LdestP", version_char)
+    with open(os.path.join(args.output_dirc, storage_fn), "wb") as fs:
+        fs.write(rom.getFile(rom.fileIdForName["LdestP"]))
+    """
 
     print("Done.")
 

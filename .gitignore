@@ -1,2 +1,7 @@
 *$py.class
-*.secret.*
+*secret*
+rogue/*
+historic/*
+.gitignore
+out_roms/*
+**/__pycache__/*

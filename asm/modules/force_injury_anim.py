@@ -6,7 +6,7 @@ It's pretty much the same here
 
 """
 
-class LeftShoulderForceAnim:
+class ForceInjuryAnim:
 
     # The API offers [VERSION, MemConst, InstrConst, asm, getScratchSpaceAddr, virtualise]
     @classmethod
@@ -40,12 +40,15 @@ class LeftShoulderForceAnim:
 
         TWEAK_ADDR = {
             "NTSC-U" : 0x5b8bc,
+            "PAL" : 0x59794,
         }[api.VERSION]
 
-        BP_LEFT_UPPER_ARM = 11
+        BP_LEFT_SHIN = 2
+        BP_RIGHT_SHIN = 5
+        ##BP_LEFT_UPPER_ARM = 11
         ##BP_RIGHT_UPPER_ARM = 14
         
-        MED_ANIM_INDEX = 0 # seems correct :) 
+        ANIM_INDEX = 1
 
         MOD = 9
         instrs = [
@@ -58,12 +61,12 @@ class LeftShoulderForceAnim:
             # bp index is sp + 0x88
             # t6, a1 used below, so are useable
             "lw   t6, 0x88(sp)",    
-            "li   a1, {}".format(BP_LEFT_UPPER_ARM), 
+            "li   a1, {}".format(BP_RIGHT_SHIN), 
 
             # [C] - 3 instructions, replacing the break
             "bne  t6, a1, {}".format(TWEAK_ADDR + 0x4 * MOD),
             "nop",
-            "li   v0, {}".format(MED_ANIM_INDEX),
+            "li   v0, {}".format(ANIM_INDEX),
 
             # MOD
             # [B] unchanged just moved

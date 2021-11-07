@@ -45,6 +45,7 @@ class MemoryConst:
             
             # NTSC-U only for now
             self.global_timer_delta = MemoryAddress(0x80048374) # float version follows
+            self.global_timer = MemoryAddress(0x8004837C)   # int
 
         elif VERSION == "NTSC-J":
             self.virtual_offset = 0x34b70
@@ -58,6 +59,8 @@ class MemoryConst:
             self.currentMission = MemoryAddress(0x8002A938)   # + 0x40
             self.ost_frames_float = MemoryAddress(0x80030b30)
 
+            self.global_timer_delta = MemoryAddress(0x800483A4)    # + 0x30, float follows again
+            self.global_timer = MemoryAddress(0x800483AC)   # inferred from U
 
         elif VERSION == "PAL":
             self.virtual_offset = 0x0329f0
@@ -69,6 +72,9 @@ class MemoryConst:
             self.shotStatistics = MemoryAddress(0x80068A00)
             self.settingsData = MemoryAddress(0x8003a620)
             self.currentMission = MemoryAddress(0x80025e48)
+
+            self.global_timer_delta = MemoryAddress(0x80040FF4) # inferred from U
+            self.global_timer = MemoryAddress(0x80040FFC)
 
 
 # NOTE most instruction differences are stored in the specific modules rather than here,

@@ -195,13 +195,18 @@ class Rom:
         return foreignTextIds
 
     def getSetupFileIds(self):
-        setup_re = re.compile("Usetup.*")
+        return self.getFileIdsMatchingRe("Usetup.*")
+
+    def getFileIdsMatchingRe(self,r):
+        setup_re = re.compile(r)
         l = []
         for file_id, name in enumerate(self.fileNames):
             if setup_re.match(name):
                 l.append(file_id)
 
         return l
+
+    
 
     def inflate(self, buffer):
         return zlib.decompress(buffer[self.ZLIB_HEADER_LENGTH:], wbits=-15)
