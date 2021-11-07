@@ -1,7 +1,19 @@
 # SplitsROM
-Tools for adding split statistics to Goldeneye -U, -J and PAL roms.
+Tools for adding split statistics and other tweaks to Goldeneye -U, -J and PAL roms
+Also now the proper home of the compiled splits roms and the relevant setups.
 
 Born in the fires of Runway 21 and Frigate 2.3 development, these modular assembly edits & tools allow you to replace the hit statistics in the endscreen with scrollable splits, and add a few QOL changes. It probably would have been easier to do using the decomp project, but assembly hacking is very fun.
+
+## Compiling splits roms
+1. Take selected projects from files/all_projects and copy their contents into include_setups.
+2. Compress all these files, and move the 1172 files into the 1172 folder.
+3. Be sure to include your versions' Ltitle.cmpr and Lgun.cmpr files - including all 6 is fine, get these from /files/gun_and_title_texts if they aren't already there
+4. Run the injector i.e:
+  py -3 sl\injector.py files\splits_roms\NTSC_U_splits_echo.z64 files\splits_roms\u.mdf files\base_roms\splits_asm_base\GE_U_splits_asm.z64 files\include_setups\1172
+5. Hopefully there was enough space (if not, what did you do :O). Compress the mdf file (u.mdf in this example) using the setup editor (tools -> compress file) as instructed.
+6. Copy the compressed mdf file into the rom at the address which was specified at the end of step 4. I cba to write a script to do this. If it's shorter then write some zeros after it. Be sure not to extend the size of the rom. If using HxD, use ctrl-B.
+7. Run crc.py on the file to fix the checksum
+
 
 ## Mechanics
 
@@ -30,8 +42,14 @@ In the endscreen, the correct splits are dynamically copied to entries 0x6D to 0
 * **sl/compare.py** is a helper for comparing hashes. Most but not all -J & -U setups are identical.
 * **sl/injector.py** is the main function for injecting editted files
 * **sl/text_compactor** compacts text! Needs the text_condenser module (eh the names are similar) else GE will try to access well beyond the end of the text file and crash. This module still supports normal text :)  
-* **/files** setups & scripts
-    
+* **/files/** 
+* **/files/base_roms/** has unlocked carts (with good crcs) and "splits base" roms which have been created using the patch_manager here, adding just the splits tweaks.
+* **/files/gun_and_title_texts** are specially tweaked files used by the splits rom, and much be included when injecting.
+* **/files/all_projects** contains a folder for each 'project' which has been made - usually creating splits for a single difficulty
+* **/files/include_setups/** copy your selected setup files (and any text files) into here when creating the rom
+* **/files/include_setups/1172** compress said files into here - and be sure to include Ltitle and Lgun files
+* **/files/splits_roms/** final output files :)
+
 ## Nuances
 * the setup editor only supports the NTSC-U rom, but the setup files are version-free. It's text editor is kinda handy but it garbles japanese text so you have to do some copy & paste to restore them. 
 * patch_manager.py must be run as a ghidra script on the appropriate ROM. It was easier to develop the edits here, though feel free to add support for keystone if you like.
@@ -40,5 +58,3 @@ In the endscreen, the correct splits are dynamically copied to entries 0x6D to 0
 * probably some I've forgotten about
 * do all your compression using the setup editor
 * you currently can't use any cheats on splits, since the function which is called when activating a cheat is used as scratch space by modules (including the splits modules)
-    
-      
