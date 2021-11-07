@@ -1,0 +1,27 @@
+ADGuard splits
+0200
+03
+4D11000F010001
+0100
+0201
+AD!cmd split 12 SG pad #4
+0202
+03
+44010103
+0102
+0203
+AD!cmd split 13 Spiral OS
+0204
+03
+4D11000F010105
+0104
+0205
+AD!cmd split 14 SG pad #5
+0206
+03
+4D110019010607
+0106
+0207
+AD!cmd split 15 SG pre spin
+05FD0001
+END
