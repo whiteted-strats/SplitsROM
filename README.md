@@ -39,6 +39,6 @@ In the endscreen, the correct splits are dynamically copied to entries 0x6D to 0
 * when importing scripts, the setup editor will silently redirect functions calls to 0001 if the function that was being called doesn't exist. This caught me out when moving Statue to NTSC-J.
 * probably some I've forgotten about
 * do all your compression using the setup editor
-
+* you currently can't use any cheats on splits, since the function which is called when activating a cheat is used as scratch space by modules (including the splits modules)
     
       

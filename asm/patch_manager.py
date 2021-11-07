@@ -49,10 +49,12 @@ api.namesBuffer = MemoryAddress(namesBuffer)
 
 # =================================================
 
+##from modules.asm_CIC_checks import NoCicCheckPatch
 from modules.asm_fast_pause_patch import FastPausePatch
-from modules.asm_CIC_checks import NoCicCheckPatch
 from modules.asm_start_2_3 import Start2_3Patch
 from modules.asm_ammo_shows_fullspeed import AmmoWithFullspeedPatch
+from modules.initial_full_speed import InitialFullSpeed
+from modules.replace_ammo import ReplaceAmmoDisplay
 
 from modules.splits.asm_zero_splits import ZeroSplitsPatch
 from modules.splits.asm_split_command import SplitCommandPatch
@@ -60,14 +62,14 @@ from modules.splits.asm_show_splits import ShowSplitsPatch
 
 from modules.condensed_text import CondensedTextPatch
 
+
 ## SELECT which modules to apply
 
 modules = [
-    #FastPausePatch,
-    NoCicCheckPatch,
-    Start2_3Patch,
-    AmmoWithFullspeedPatch
+    ## NoCicCheckPatch,     # Repairing the CRC properly now
 ]
+
+## Splits rom
 modules.extend([
     ZeroSplitsPatch,
     SplitCommandPatch,

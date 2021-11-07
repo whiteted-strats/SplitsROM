@@ -46,7 +46,7 @@ def getTrueChecksum(romData):
     return checksum
 
 
-def main(romFp):
+def main(romFp, readOnly):
     with open(romFp, "rb") as fs:
         romData = fs.read()
 
@@ -66,6 +66,10 @@ def main(romFp):
     print(f"[ ]  Rom checksum is: {romChecksum.hex()}")
     print(f"[ ] True checksum is: {trueChecksum.hex()}")
 
+    if readOnly:
+        print("[-] Read-only flag set - no action")
+        return
+
     with open(romFp, "wb") as fs:
         fs.write(romData[:0x10])
         fs.write(trueChecksum)
@@ -76,5 +80,6 @@ def main(romFp):
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("rom")
+    p.add_argument("--read-only", action="store_true")
     args = p.parse_args()
-    main(args.rom)
+    main(args.rom, args.read_only)
