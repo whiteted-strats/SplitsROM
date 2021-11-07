@@ -24,14 +24,26 @@ def main():
 
     # Get all the injection files, {name -> compressed_data}
     injection_files = getInjectionFiles(args.setup_dirc)
-    print("{} files discovered in the supplied directory.".format(len(injection_files)))
+    print(f"{len(injection_files)} files discovered in the supplied directory.\n")
 
+    # Where there is foreign text, disregard if there is a native version of the same file
+    # Else we assume that we are meant to be using that translation
+    foreignText = [fn for fn in injection_files.keys() if fn[0] == "L" and fn[-1] != version_char.upper()]
+    for ftfn in foreignText:
+        ntfn = ftfn[:-1] + version_char.upper()
+        if ntfn in injection_files:
+            print(f"  Native text '{ntfn}' prefered over foreign text '{ftfn}' - Ignoring foreign..")
+            del injection_files[ftfn]
+        else:
+            print(f"[!] Foreign text '{ftfn}' found and native '{ntfn}' wasn't.")
+            print(f"  Assuming that this should be used as a translation")
+            injection_files[ntfn] = injection_files[ftfn]
+            del injection_files[ftfn]
 
     # Filter out unrecognised filenames, and compute the extra space that we'll need
     # Some of the new files may be smaller, and we do benefit from this
     reqSpace = sieveInjectionFiles(rom, injection_files)
     print("")
-
     
     # Calculate the available space from removing foreign text (~33KB)
     # More for PAL because it has E, J and P text (bizarre)
@@ -39,7 +51,7 @@ def main():
     availableSpace = sum([rom.fileSize(file_id) for file_id in foreignLangFileIds])
     
 
-    print("{} extra space required, {} available from removing foreign text.".format(reqSpace, availableSpace))
+    print(f"{reqSpace} extra space required, {availableSpace} available from removing foreign text.")
     if reqSpace > availableSpace:
         print("NOT ENOUGH SPACE.")
         return
@@ -73,7 +85,7 @@ def main():
 
 
     print("\nDone.")
-    print("Compress the mdf '21990' file and write it to 0x{:x}".format(rom.MDF_ROM_ADDRESS))
+    print(f"Compress the mdf '21990' file and write it to 0x{rom.MDF_ROM_ADDRESS:x}")
 
 
 if __name__ == "__main__":
